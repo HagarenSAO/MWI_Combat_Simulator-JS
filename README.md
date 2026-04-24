@@ -1,21 +1,21 @@
-# MWICombatSimulator
+# MWI Combat Simulator
 
 ### How to run locally for development purposes
 
 Install dependencies: 
 
 ```bash
-npm install
+deno install
 ```
 
 Build webpack bundle:
 
 ```bash
-npm run build
+deno task build
 ```
 
 Run locally:
 
 ```bash
-npm start
+deno task start
 ```
