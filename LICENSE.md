@@ -1,7 +1,4 @@
 # MWI_Combat_Simulator-JS
-Copyright (c) 2026 HagarenSAO
-Licensed under the MIT License.
-
 
 MIT License
 
@@ -29,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 This project contains portions of the following upstream projects:
 
 
-############################################################################################################
+## ##########################################################################################################
 ### MWICombatSimulatorTest (by shykai)
 Source: https://github.com/shykai/MWICombatSimulatorTest/tree/testing
 License: MIT
@@ -37,7 +34,7 @@ Copyright (c) 2024 shykai
 License Source: https://raw.githubusercontent.com/shykai/MWICombatSimulatorTest/refs/heads/main/LICENSE
 
 
-############################################################################################################
+## ##########################################################################################################
 ### MWICombatSimulatorTest (by AmVoidGuy)
 Source: https://github.com/AmVoidGuy/MWICombatSimulatorTest/tree/testing
 License: MIT
@@ -64,7 +61,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-############################################################################################################
+## ##########################################################################################################
 ### MWICombatSimulator (Original)
 Source: https://github.com/KuganDev/MWICombatSimulator
 License: ISC
@@ -72,7 +69,7 @@ Copyright (c) 2022 KuganDev
 License Source: https://raw.githubusercontent.com/KuganDev/MWICombatSimulator/refs/heads/main/package.json
 
 
-Text of the ISC License (https://www.isc.org/licenses/)(copied by HagarenSAO on 2026-04-24):
+Text of the ISC License (https://www.isc.org/licenses)(copied by HagarenSAO on 2026-04-24):
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby 
 granted, provided that the above copyright notice and this permission notice appear in all copies.
@@ -84,4 +81,4 @@ WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING O
 THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
-############################################################################################################
+## ##########################################################################################################
