@@ -1,25 +1,16 @@
 {
-    "name": "mwicombatsimulator",
-    "version": "1.0.1",
-    "description": "",
-    "main": "index.js",
+    "name": "mwi-combat-simulator-js",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Milky Way Idle Combat Simulator (JavaScript Version)",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "webpack",
         "watch": "webpack --watch",
         "start": "webpack serve --mode development --open"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/AmVoidGuy/MWICombatSimulator.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/AmVoidGuy/MWICombatSimulator/issues"
-    },
-    "homepage": "https://github.com/AmVoidGuy/MWICombatSimulator#readme",
+    "license": "MIT",
+    "homepage": "https://github.com/HagarenSAO/MWI_Combat_Simulator-JS",
     "devDependencies": {
         "copy-webpack-plugin": "^12.0.2",
         "webpack": "^5.93.0",
@@ -27,7 +18,6 @@
         "webpack-dev-server": "^5.0.4"
     },
     "dependencies": {
-        "heap-js": "^2.2.0",
-        "mwicombatsimulator": "file:"
+        "heap-js": "^2.2.0"
     }
 }
