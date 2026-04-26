@@ -1,3 +1,5 @@
+import { random, reset } from "./random.js";
+
 import Equipment from "./combatsimulator/equipment.js";
 import Player from "./combatsimulator/player.js";
 import abilityDetailMap from "./combatsimulator/data/abilityDetailMap.json";
@@ -1808,7 +1810,7 @@ function fidDropAmount(dropAmount) {
 
   const intPart   = Math.floor(dropAmount);
   const fracPart  = dropAmount - intPart;
-  return Math.random() < fracPart ? intPart + 1 : intPart;
+  return random() < fracPart ? intPart + 1 : intPart;
 }
 
 function calcDropMaps(simResult, playerToDisplay) {
@@ -1857,16 +1859,16 @@ function calcDropMaps(simResult, playerToDisplay) {
 
             for (let i = 0; i < simResult.deaths[monster]; i++) {
                 for (let dropObject of dropMap.values()) {
-                    let chance = Math.random();
+                    let chance = random();
                     if (chance <= dropObject.dropRate / numberOfPlayers) {
-                        let amount = Math.floor(Math.random() * (dropObject.dropMax - dropObject.dropMin + 1) + dropObject.dropMin) * (1 + debuffOnLevelGap) * (1 + combatDropQuantity);
+                        let amount = Math.floor(random() * (dropObject.dropMax - dropObject.dropMin + 1) + dropObject.dropMin) * (1 + debuffOnLevelGap) * (1 + combatDropQuantity);
                         dropObject.number = dropObject.number + fidDropAmount(amount);
                     }
                 }
                 for (let dropObject of rareDropMap.values()) {
-                    let chance = Math.random();
+                    let chance = random();
                     if (chance <= dropObject.dropRate / numberOfPlayers) {
-                        let amount = Math.floor(Math.random() * (dropObject.dropMax - dropObject.dropMin + 1) + dropObject.dropMin) * (1 + debuffOnLevelGap) * (1 + combatDropQuantity);
+                        let amount = Math.floor(random() * (dropObject.dropMax - dropObject.dropMin + 1) + dropObject.dropMin) * (1 + debuffOnLevelGap) * (1 + combatDropQuantity);
                         dropObject.number = dropObject.number + fidDropAmount(amount);
                     }
                 }
@@ -3098,7 +3100,8 @@ function startSimulation(selectedPlayers) {
 
         let workerMessage = {
             type: "start_simulation",
-            workerId: Math.floor(Math.random() * 1e9).toString(),
+            seed: Number(document.getElementById("inputSeed")?.value) || undefined,
+            workerId: Math.floor(random() * 1e9).toString(),
             players: playersToSim,
             zone: simZone,
             labyrinth: simLabyrinth,
@@ -3129,7 +3132,8 @@ function startSimulation(selectedPlayers) {
 
         let workerMessage = {
             type: "start_simulation_all_labyrinths",
-            workerId: Math.floor(Math.random() * 1e9).toString(),
+            seed: Number(document.getElementById("inputSeed")?.value) || undefined,
+            workerId: Math.floor(random() * 1e9).toString(),
             players: playersToSim,
             labyrinths: simHrids,
             simulationTimeLimit: simulationTimeLimit,
@@ -3179,7 +3183,8 @@ function startSimulation(selectedPlayers) {
 
         let workerMessage = {
             type: "start_simulation_all_zones",
-            workerId: Math.floor(Math.random() * 1e9).toString(),
+            seed: Number(document.getElementById("inputSeed")?.value) || undefined,
+            workerId: Math.floor(random() * 1e9).toString(),
             players: playersToSim,
             zones: simHrids,
             simulationTimeLimit: simulationTimeLimit,
@@ -3329,7 +3334,8 @@ document.getElementById("buttonUploadJSONSimulate").addEventListener("click", (e
                     let workerMessage = {
                         simulationName: simName,
                         type: "start_simulation_all_zones",
-                        workerId: Math.floor(Math.random() * 1e9).toString(),
+                        seed: Number(document.getElementById("inputSeed")?.value) || undefined,
+                        workerId: Math.floor(random() * 1e9).toString(),
                         players: playersToSim,
                         zones: simHrids,
                         simulationTimeLimit: simulationTimeLimit,
@@ -3348,7 +3354,8 @@ document.getElementById("buttonUploadJSONSimulate").addEventListener("click", (e
                     let workerMessage = {
                         simulationName: simName,
                         type: "start_simulation",
-                        workerId: Math.floor(Math.random() * 1e9).toString(),
+                        seed: Number(document.getElementById("inputSeed")?.value) || undefined,
+                        workerId: Math.floor(random() * 1e9).toString(),
                         players: playersToSim,
                         zone: { zoneHrid: zoneHrid, difficultyTier: difficultyTier },
                         simulationTimeLimit: simulationTimeLimit,

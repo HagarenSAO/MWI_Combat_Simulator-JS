@@ -1,5 +1,7 @@
 {
     "title": "MWI 战斗模拟器",
+    "seed": "随机种子",
+    "seedPlaceholder": "留空则随机",
     "priceSettings": {
         "title": "价格设置",
         "consumablePrices": "消耗品价格",

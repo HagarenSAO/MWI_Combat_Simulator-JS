@@ -1,5 +1,7 @@
 {
     "title": "MWI Combat Simulator",
+    "seed": "Seed",
+    "seedPlaceholder": "Leave empty for random",
     "priceSettings": {
         "title": "Price Settings",
         "consumablePrices": "Consumable Prices",

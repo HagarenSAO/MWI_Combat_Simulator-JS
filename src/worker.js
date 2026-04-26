@@ -1,3 +1,5 @@
+import { setSeed } from "./random.js";
+
 import CombatSimulator from "./combatsimulator/combatSimulator";
 import Player from "./combatsimulator/player";
 import Zone from "./combatsimulator/zone";
@@ -6,6 +8,12 @@ import Labyrinth from "./combatsimulator/labyrinth";
 onmessage = async function (event) {
     switch (event.data.type) {
         case "start_simulation":
+            
+            // Set random seed if provided
+            if (event.data.seed !== undefined && event.data.seed !== null) {
+                setSeed(event.data.seed);
+            }
+
             let extraBuffs = [];
             if (event.data.extra.mooPass) {
                 const mooPassBuff = {
