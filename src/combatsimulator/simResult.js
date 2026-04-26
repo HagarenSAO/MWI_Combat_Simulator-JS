@@ -2,6 +2,9 @@ import combatStyleDetailMap from "./data/combatStyleDetailMap.json"
 
 class SimResult {
     constructor(zone, labyrinth, numberOfPlayers) {
+
+        this.seed = undefined;
+
         this.deaths = {};
         this.experienceGained = {};
         this.encounters = 0;

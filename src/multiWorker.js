@@ -25,6 +25,7 @@ onmessage = async function (event) {
                         let workerMessage = {
                             type: "start_simulation",
                             players: event.data.players,
+                            seed: event.data.seed,
                             zone: currentZone,
                             extra: event.data.extra,
                             simulationTimeLimit: event.data.simulationTimeLimit,
@@ -88,6 +89,7 @@ onmessage = async function (event) {
                         // Do simulation
                         let workerMessage = {
                             type: "start_simulation",
+                            seed: event.data.seed,
                             players: event.data.players,
                             labyrinth: currentLabyrinth,
                             extra: event.data.extra,

@@ -1,3 +1,5 @@
+import { random, getSeed } from "../random.js";
+
 import CombatUtilities from "./combatUtilities";
 import AutoAttackEvent from "./events/autoAttackEvent";
 import DamageOverTimeEvent from "./events/damageOverTimeEvent";
@@ -255,6 +257,9 @@ class CombatSimulator extends EventTarget {
             this.simResult.labyAttemptCount = this.labyrinth.attemptCount;
         }
 
+        // 保存 seed 以便後續計算掉落
+        this.simResult.seed = getSeed();
+
         return this.simResult;
     }
 
@@ -442,8 +447,8 @@ class CombatSimulator extends EventTarget {
         if (parryUnits.length <= 0) {
             return undefined;
         }
-        let randomIndex = Math.floor(Math.random() * parryUnits.length);
-        if (parryUnits[randomIndex].combatDetails.combatStats.parry > Math.random()) {
+        let randomIndex = Math.floor(random() * parryUnits.length);
+        if (parryUnits[randomIndex].combatDetails.combatStats.parry > random()) {
             return parryUnits[randomIndex];
         }
         return undefined;
@@ -475,7 +480,7 @@ class CombatSimulator extends EventTarget {
                         rangeEnd: cumulativeThreat
                     });
                 });
-                let randomValueHit = Math.random() * cumulativeThreat;
+                let randomValueHit = random() * cumulativeThreat;
                 target = cumulativeRanges.find(range => randomValueHit >= range.rangeStart && randomValueHit < range.rangeEnd).player;
             }
             let source = event.source;
@@ -492,7 +497,7 @@ class CombatSimulator extends EventTarget {
                 this.addToWipeLogs(log);
             }
 
-            let mayhem = source.combatDetails.combatStats.mayhem > Math.random();
+            let mayhem = source.combatDetails.combatStats.mayhem > random();
 
             if (attackResult.didHit && source.combatDetails.combatStats.curse > 0) {
                 const curseExpireTime = 15000000000;
@@ -650,7 +655,7 @@ class CombatSimulator extends EventTarget {
                 continue;
             }
 
-            if (!attackResult.didHit || parryTarget || source.combatDetails.combatStats.pierce <= Math.random()) {
+            if (!attackResult.didHit || parryTarget || source.combatDetails.combatStats.pierce <= random()) {
                 break;
             }
         }
@@ -1213,11 +1218,11 @@ class CombatSimulator extends EventTarget {
 
         let todoAbilities = [ability];
 
-        if (source.combatDetails.combatStats.blaze > 0 && Math.random() < source.combatDetails.combatStats.blaze) {
+        if (source.combatDetails.combatStats.blaze > 0 && random() < source.combatDetails.combatStats.blaze) {
             todoAbilities.push(new Ability("blaze"));
         }
 
-        if (source.combatDetails.combatStats.bloom > 0 && Math.random() < source.combatDetails.combatStats.bloom) {
+        if (source.combatDetails.combatStats.bloom > 0 && random() < source.combatDetails.combatStats.bloom) {
             todoAbilities.push(new Ability("bloom"));
         }
 
@@ -1250,7 +1255,7 @@ class CombatSimulator extends EventTarget {
             }
         }
 
-        if (source.combatDetails.combatStats.ripple > 0 && Math.random() < source.combatDetails.combatStats.ripple) {
+        if (source.combatDetails.combatStats.ripple > 0 && random() < source.combatDetails.combatStats.ripple) {
             let manapointsAdded = source.addManapoints(10);
             this.simResult.addManapointsGained(source, "ripple", manapointsAdded);
             for (const ability of source.abilities) {
@@ -1399,7 +1404,7 @@ class CombatSimulator extends EventTarget {
                             rangeEnd: cumulativeThreat
                         });
                     });
-                    let randomValueHit = Math.random() * cumulativeThreat;
+                    let randomValueHit = random() * cumulativeThreat;
                     target = cumulativeRanges.find(range => randomValueHit >= range.rangeStart && randomValueHit < range.rangeEnd).player;
                     avoidTarget.push(target.hrid);
                 }
@@ -1441,7 +1446,7 @@ class CombatSimulator extends EventTarget {
                     this.eventQueue.addEvent(damageOverTimeEvent);
                 }
 
-                if (attackResult.didHit && abilityEffect.stunChance > 0 && Math.random() < (abilityEffect.stunChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
+                if (attackResult.didHit && abilityEffect.stunChance > 0 && random() < (abilityEffect.stunChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
                     target.isStunned = true;
                     target.stunExpireTime = this.simulationTime + abilityEffect.stunDuration;
                     this.eventQueue.clearMatching((event) => (event.type == AutoAttackEvent.type || event.type == AbilityCastEndEvent.type || event.type == StunExpirationEvent.type) && event.source == target);
@@ -1449,7 +1454,7 @@ class CombatSimulator extends EventTarget {
                     this.eventQueue.addEvent(stunExpirationEvent);
                 }
 
-                if (attackResult.didHit && abilityEffect.blindChance > 0 && Math.random() < (abilityEffect.blindChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
+                if (attackResult.didHit && abilityEffect.blindChance > 0 && random() < (abilityEffect.blindChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
                     target.isBlinded = true;
                     target.blindExpireTime = this.simulationTime + abilityEffect.blindDuration;
                     this.eventQueue.clearMatching((event) => event.type == BlindExpirationEvent.type && event.source == target)
@@ -1461,7 +1466,7 @@ class CombatSimulator extends EventTarget {
                     this.eventQueue.addEvent(blindExpirationEvent);
                 }
 
-                if (attackResult.didHit && abilityEffect.silenceChance > 0 && Math.random() < (abilityEffect.silenceChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
+                if (attackResult.didHit && abilityEffect.silenceChance > 0 && random() < (abilityEffect.silenceChance * 100 / (100 + target.combatDetails.combatStats.tenacity))) {
                     target.isSilenced = true;
                     target.silenceExpireTime = this.simulationTime + abilityEffect.silenceDuration;
                     this.eventQueue.clearMatching((event) => event.type == SilenceExpirationEvent.type && event.source == target)
@@ -1603,7 +1608,7 @@ class CombatSimulator extends EventTarget {
                 }
 
 
-                if (attackResult.didHit && abilityEffect.pierceChance > Math.random()) {
+                if (attackResult.didHit && abilityEffect.pierceChance > random()) {
                     continue;
                 }
             }
@@ -1694,7 +1699,7 @@ class CombatSimulator extends EventTarget {
 
     processAbilityPromoteEffect(source, ability, abilityEffect) {
         const promotionHrids = ["/monsters/enchanted_rook", "/monsters/enchanted_knight", "/monsters/enchanted_bishop"];
-        let randomPromotionIndex = Math.floor(Math.random() * promotionHrids.length);
+        let randomPromotionIndex = Math.floor(random() * promotionHrids.length);
         return new Monster(promotionHrids[randomPromotionIndex], source.difficultyTier);
     }
 
