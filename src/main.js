@@ -1814,6 +1814,13 @@ function fidDropAmount(dropAmount) {
 }
 
 function calcDropMaps(simResult, playerToDisplay) {
+    
+    if (simResult.seed !== undefined) {
+    // 目的：確保index.html有用random seed時的可重現性
+    // 使用模擬怪物死亡結束後的 seed（和index.html上的seed不同）
+        reset(simResult.seed);
+    }
+    
     let dropRateMultiplier = simResult.dropRateMultiplier[playerToDisplay];
     let rareFindMultiplier = simResult.rareFindMultiplier[playerToDisplay];
     let combatDropQuantity = simResult.combatDropQuantity[playerToDisplay];
