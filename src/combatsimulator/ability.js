@@ -1,6 +1,6 @@
-import Buff from "./buff";
-import abilityDetailMap from "./data/abilityDetailMap.json";
-import Trigger from "./trigger";
+import Buff from "./buff.js";
+import abilityDetailMap from "./data/abilityDetailMap.json" with { type: "json" };
+import Trigger from "./trigger.js";
 
 const abilityFromCombatStat = {
     "blaze":

@@ -1,4 +1,4 @@
-import combatStyleDetailMap from "./data/combatStyleDetailMap.json"
+import combatStyleDetailMap from "./data/combatStyleDetailMap.json" with { type: "json" };
 
 class SimResult {
     constructor(zone, labyrinth, numberOfPlayers) {
@@ -122,7 +122,7 @@ class SimResult {
             };
         }
 
-        let experienceGainedRate = {
+        const experienceGainedRate = {
             "stamina": 0,
             "intelligence": 0,
             "attack": 0,
@@ -241,7 +241,7 @@ class SimResult {
 
     setManaUsed(unit) {
         this.manaUsed[unit.hrid] = {};
-        for (let [key, value] of unit.abilityManaCosts.entries()) {
+        for ([key, value] of unit.abilityManaCosts.entries()) {
             this.manaUsed[unit.hrid][key] = value;
         }
     }

@@ -1,12 +1,12 @@
-import Buff from "./buff";
-import itemDetailMap from "./data/itemDetailMap.json";
-import Trigger from "./trigger";
+import Buff from "./buff.js";
+import itemDetailMap from "./data/itemDetailMap.json" with { type: "json" };
+import Trigger from "./trigger.js";
 
 class Consumable {
     constructor(hrid, triggers = null) {
         this.hrid = hrid;
 
-        let gameConsumable = itemDetailMap[this.hrid];
+        const gameConsumable = itemDetailMap[this.hrid];
         if (!gameConsumable) {
             throw new Error("No consumable found for hrid: " + this.hrid);
         }
@@ -20,7 +20,7 @@ class Consumable {
         this.buffs = [];
         if (gameConsumable.consumableDetail.buffs) {
             for (const consumableBuff of gameConsumable.consumableDetail.buffs) {
-                let buff = new Buff(consumableBuff);
+                const buff = new Buff(consumableBuff);
                 this.buffs.push(buff);
             }
         }
@@ -30,7 +30,7 @@ class Consumable {
         } else {
             this.triggers = [];
             for (const defaultTrigger of gameConsumable.consumableDetail.defaultCombatTriggers) {
-                let trigger = new Trigger(
+                const trigger = new Trigger(
                     defaultTrigger.dependencyHrid,
                     defaultTrigger.conditionHrid,
                     defaultTrigger.comparatorHrid,
@@ -44,8 +44,8 @@ class Consumable {
     }
 
     static createFromDTO(dto) {
-        let triggers = dto.triggers.map((trigger) => Trigger.createFromDTO(trigger));
-        let consumable = new Consumable(dto.hrid, triggers);
+        const triggers = dto.triggers.map((trigger) => Trigger.createFromDTO(trigger));
+        const consumable = new Consumable(dto.hrid, triggers);
 
         return consumable;
     }

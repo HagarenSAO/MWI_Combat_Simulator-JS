@@ -1,4 +1,4 @@
-import combatTriggerDependencyDetailMap from "./data/combatTriggerDependencyDetailMap.json";
+import combatTriggerDependencyDetailMap from "./data/combatTriggerDependencyDetailMap.json" with { type: "json" };
 
 class Trigger {
     constructor(dependencyHrid, conditionHrid, comparatorHrid, value = 0) {
@@ -9,7 +9,7 @@ class Trigger {
     }
 
     static createFromDTO(dto) {
-        let trigger = new Trigger(dto.dependencyHrid, dto.conditionHrid, dto.comparatorHrid, dto.value);
+        const trigger = new Trigger(dto.dependencyHrid, dto.conditionHrid, dto.comparatorHrid, dto.value);
 
         return trigger;
     }
@@ -67,7 +67,7 @@ class Trigger {
                 break;
             case "/combat_trigger_conditions/lowest_hp_percentage":
                 dependencyValue = dependency.filter((unit) => unit.combatDetails.currentHitpoints > 0).reduce((prev, curr) => {
-                    let currentHpPercentage = curr.combatDetails.currentHitpoints / curr.combatDetails.maxHitpoints;
+                    const currentHpPercentage = curr.combatDetails.currentHitpoints / curr.combatDetails.maxHitpoints;
                     return currentHpPercentage < prev ? currentHpPercentage : prev;
                 }, 2) * 100;
                 break;
@@ -114,10 +114,11 @@ class Trigger {
             case "/combat_trigger_conditions/fracturing_impact":
             case "/combat_trigger_conditions/maim":
             case "/combat_trigger_conditions/curse":
-            case "/combat_trigger_conditions/weaken":
+            case "/combat_trigger_conditions/weaken": {
                 let buffHrid = "/buff_uniques";
                 buffHrid += this.conditionHrid.slice(this.conditionHrid.lastIndexOf("/"));
                 return source.combatBuffs[buffHrid];
+            }
             case "/combat_trigger_conditions/critical_aura":
             case "/combat_trigger_conditions/critical_coffee":
             case "/combat_trigger_conditions/intelligence_coffee":
@@ -134,11 +135,12 @@ class Trigger {
             case "/combat_trigger_conditions/smoke_burst":
             case "/combat_trigger_conditions/speed_aura":
             case "/combat_trigger_conditions/toughness":
-            case "/combat_trigger_conditions/enrage":
+            case "/combat_trigger_conditions/enrage": {
                 let buffPrefix = "/buff_uniques";
                 buffPrefix += this.conditionHrid.slice(this.conditionHrid.lastIndexOf("/"));
-                let buffs = Object.keys(source.combatBuffs).filter(buff => buff.startsWith(buffPrefix));
+                const buffs = Object.keys(source.combatBuffs).filter(buff => buff.startsWith(buffPrefix));
                 return source.combatBuffs[buffs?.[0]];
+            }
             case "/combat_trigger_conditions/current_hp":
                 return source.combatDetails.currentHitpoints;
             case "/combat_trigger_conditions/current_mp":

@@ -1,4 +1,4 @@
-import CombatEvent from "./combatEvent";
+import CombatEvent from "./combatEvent.js";
 
 class CooldownReadyEvent extends CombatEvent {
     static type = "cooldownReady";
