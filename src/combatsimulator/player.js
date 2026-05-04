@@ -1,9 +1,9 @@
-import Ability from "./ability";
-import CombatUnit from "./combatUnit";
-import Consumable from "./consumable";
-import Equipment from "./equipment";
-import HouseRoom from "./houseRoom";
-import Achievement from "./achievement";
+import Ability from "./ability.js";
+import CombatUnit from "./combatUnit.js";
+import Consumable from "./consumable.js";
+import Equipment from "./equipment.js";
+import HouseRoom from "./houseRoom.js";
+import Achievement from "./achievement.js";
 
 class Player extends CombatUnit {
     equipment = {
@@ -27,7 +27,7 @@ class Player extends CombatUnit {
     }
 
     static createFromDTO(dto) {
-        let player = new Player();
+        const player = new Player();
 
         player.staminaLevel = dto.staminaLevel;
         player.intelligenceLevel = dto.intelligenceLevel;

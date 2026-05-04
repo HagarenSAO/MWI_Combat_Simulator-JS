@@ -1,4 +1,4 @@
-import CombatEvent from "./combatEvent";
+import CombatEvent from "./combatEvent.js";
 
 class CheckBuffExpirationEvent extends CombatEvent {
     static type = "checkBuffExpiration";

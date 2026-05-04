@@ -1,14 +1,14 @@
 import { random } from "../random.js";
 
-import actionDetailMap from "./data/actionDetailMap.json";
-import Monster from "./monster";
+import actionDetailMap from "./data/actionDetailMap.json" with { type: "json" };
+import Monster from "./monster.js";
 
 class Zone {
     constructor(hrid, difficultyTier) {
         this.hrid = hrid;
         this.difficultyTier = difficultyTier;
 
-        let gameZone = actionDetailMap[this.hrid];
+        const gameZone = actionDetailMap[this.hrid];
         this.monsterSpawnInfo = gameZone.combatZoneInfo.fightInfo;
         this.dungeonSpawnInfo = gameZone.combatZoneInfo.dungeonInfo;
         this.encountersKilled = 1;
@@ -27,13 +27,13 @@ class Zone {
             return this.monsterSpawnInfo.bossSpawns.map((monster) => new Monster(monster.combatMonsterHrid, monster.difficultyTier + this.difficultyTier));
         }
 
-        let totalWeight = this.monsterSpawnInfo.randomSpawnInfo.spawns.reduce((prev, cur) => prev + cur.rate, 0);
+        const totalWeight = this.monsterSpawnInfo.randomSpawnInfo.spawns.reduce((prev, cur) => prev + cur.rate, 0);
 
-        let encounterHrids = [];
+        const encounterHrids = [];
         let totalStrength = 0;
 
         outer: for (let i = 0; i < this.monsterSpawnInfo.randomSpawnInfo.maxSpawnCount; i++) {
-            let randomWeight = totalWeight * random();
+            const randomWeight = totalWeight * random();
             let cumulativeWeight = 0;
 
             for (const spawn of this.monsterSpawnInfo.randomSpawnInfo.spawns) {
@@ -66,8 +66,8 @@ class Zone {
             this.encountersKilled = 1;
         }
         // console.log("Wave #" + this.encountersKilled);
-        if (this.dungeonSpawnInfo.fixedSpawnsMap.hasOwnProperty(this.encountersKilled.toString())) {
-            let currentMonsters = this.dungeonSpawnInfo.fixedSpawnsMap[(this.encountersKilled).toString()];
+        if (Object.hasOwn(this.dungeonSpawnInfo.fixedSpawnsMap, this.encountersKilled.toString())) {
+            const currentMonsters = this.dungeonSpawnInfo.fixedSpawnsMap[(this.encountersKilled).toString()];
             this.encountersKilled++;
             return currentMonsters.map((monster) => new Monster(monster.combatMonsterHrid, monster.difficultyTier + this.difficultyTier));
         } else {
@@ -83,13 +83,13 @@ class Zone {
                     }
                 }
             }
-            let totalWeight = monsterSpawns.spawns.reduce((prev, cur) => prev + cur.rate, 0);
+            const totalWeight = monsterSpawns.spawns.reduce((prev, cur) => prev + cur.rate, 0);
 
-            let encounterHrids = [];
+            const encounterHrids = [];
             let totalStrength = 0;
 
             outer: for (let i = 0; i < monsterSpawns.maxSpawnCount; i++) {
-                let randomWeight = totalWeight * random();
+                const randomWeight = totalWeight * random();
                 let cumulativeWeight = 0;
 
                 for (const spawn of monsterSpawns.spawns) {

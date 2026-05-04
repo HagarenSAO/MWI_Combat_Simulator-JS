@@ -5,33 +5,33 @@ class CombatUtilities {
         if (!enemies) {
             return null;
         }
-        let target = enemies.find((enemy) => enemy.combatDetails.currentHitpoints > 0);
+        const target = enemies.find((enemy) => enemy.combatDetails.currentHitpoints > 0);
 
         return target ?? null;
     }
 
     static randomInt(min, max) {
         if (max < min) {
-            let temp = min;
+            const temp = min;
             min = max;
             max = temp;
         }
 
-        let minCeil = Math.ceil(min);
-        let maxFloor = Math.floor(max);
+        const minCeil = Math.ceil(min);
+        const maxFloor = Math.floor(max);
 
         if (Math.floor(min) == maxFloor) {
             return Math.floor((min + max) / 2 + random());
         }
 
-        let minTail = -1 * (min - minCeil);
-        let maxTail = max - maxFloor;
+        const minTail = -1 * (min - minCeil);
+        const maxTail = max - maxFloor;
 
-        let balancedWeight = 2 * minTail + (maxFloor - minCeil);
-        let balancedAverage = (maxFloor + minCeil) / 2;
-        let average = (max + min) / 2;
-        let extraTailWeight = (balancedWeight * (average - balancedAverage)) / (maxFloor + 1 - average);
-        let extraTailChance = Math.abs(extraTailWeight / (extraTailWeight + balancedWeight));
+        const balancedWeight = 2 * minTail + (maxFloor - minCeil);
+        const balancedAverage = (maxFloor + minCeil) / 2;
+        const average = (max + min) / 2;
+        const extraTailWeight = (balancedWeight * (average - balancedAverage)) / (maxFloor + 1 - average);
+        const extraTailChance = Math.abs(extraTailWeight / (extraTailWeight + balancedWeight));
 
         if (random() < extraTailChance) {
             if (maxTail > minTail) {
@@ -49,10 +49,10 @@ class CombatUtilities {
     }
 
     static processAttack(source, target, abilityEffect = null) {
-        let combatStyle = abilityEffect
+        const combatStyle = abilityEffect
             ? abilityEffect.combatStyleHrid
             : source.combatDetails.combatStats.combatStyleHrid;
-        let damageType = abilityEffect ? abilityEffect.damageType : source.combatDetails.combatStats.damageType;
+        const damageType = abilityEffect ? abilityEffect.damageType : source.combatDetails.combatStats.damageType;
 
         let sourceAccuracyRating = 1;
         let sourceAutoAttackMaxDamage = 1;
@@ -140,8 +140,8 @@ class CombatUtilities {
         let hitChance = 1;
         let critChance = 0;
         let isCrit = false;
-        let bonusCritChance = source.combatDetails.combatStats.criticalRate;
-        let bonusCritDamage = source.combatDetails.combatStats.criticalDamage;
+        const bonusCritChance = source.combatDetails.combatStats.criticalRate;
+        const bonusCritDamage = source.combatDetails.combatStats.criticalDamage;
 
         if (abilityEffect) {
             sourceAccuracyRating *= (1 + abilityEffect.bonusAccuracyRatio);
@@ -161,10 +161,10 @@ class CombatUtilities {
 
         critChance = critChance + bonusCritChance;
 
-        let baseDamageFlat = abilityEffect ? abilityEffect.damageFlat : 0;
-        let baseDamageRatio = abilityEffect ? abilityEffect.damageRatio : 1;
+        const baseDamageFlat = abilityEffect ? abilityEffect.damageFlat : 0;
+        const baseDamageRatio = abilityEffect ? abilityEffect.damageRatio : 1;
 
-        let armorDamageRatioFlat = abilityEffect ? abilityEffect.armorDamageRatio * source.combatDetails.totalArmor : 0;
+        const armorDamageRatioFlat = abilityEffect ? abilityEffect.armorDamageRatio * source.combatDetails.totalArmor : 0;
 
         let sourceMinDamage = sourceDamageMultiplier * (1 + baseDamageFlat + armorDamageRatioFlat);
         let sourceMaxDamage = sourceDamageMultiplier * (baseDamageRatio * sourceAutoAttackMaxDamage + baseDamageFlat + armorDamageRatioFlat);
@@ -201,7 +201,7 @@ class CombatUtilities {
                 targetDamageTakenRatio = (100 - penetratedTargetResistance) / 100;
             }
 
-            let mitigatedDamage = Math.ceil(targetDamageTakenRatio * damageRoll);
+            const mitigatedDamage = Math.ceil(targetDamageTakenRatio * damageRoll);
             damageDone = Math.min(mitigatedDamage, target.combatDetails.currentHitpoints);
             target.combatDetails.currentHitpoints -= damageDone;
         }
@@ -218,17 +218,17 @@ class CombatUtilities {
                 sourceDamageTakenRatio = (100 - penetratedSourceResistance) / 100;
             }
 
-            let targetTaskDamageMultiplier = 1.0 + target.combatDetails.combatStats.taskDamage;
-            let sourceDamageTakenMultiplier = 1.0 + source.combatDetails.combatStats.damageTaken;
-            let targetDamageMultiplier = targetTaskDamageMultiplier * sourceDamageTakenMultiplier;
+            const targetTaskDamageMultiplier = 1.0 + target.combatDetails.combatStats.taskDamage;
+            const sourceDamageTakenMultiplier = 1.0 + source.combatDetails.combatStats.damageTaken;
+            const targetDamageMultiplier = targetTaskDamageMultiplier * sourceDamageTakenMultiplier;
 
-            let thornsDamageRoll = CombatUtilities.randomInt(1,
+            const thornsDamageRoll = CombatUtilities.randomInt(1,
                 targetDamageMultiplier
                 * target.combatDetails.defensiveMaxDamage
                 * (1.0 + targetResistance / 100.0)
                 * targetThornPower);
 
-            let mitigatedThornsDamage = Math.ceil(sourceDamageTakenRatio * thornsDamageRoll);
+            const mitigatedThornsDamage = Math.ceil(sourceDamageTakenRatio * thornsDamageRoll);
 
             thornDamageDone = Math.min(mitigatedThornsDamage, source.combatDetails.currentHitpoints);
             source.combatDetails.currentHitpoints -= thornDamageDone;
@@ -236,7 +236,7 @@ class CombatUtilities {
 
         let retaliationDamageDone = 0;
         if (target.combatDetails.combatStats.retaliation > 0) {
-            let retaliationHitChance = 
+            const retaliationHitChance = 
                 Math.pow(target.combatDetails.smashAccuracyRating, 1.4) /
                 (Math.pow(target.combatDetails.smashAccuracyRating, 1.4) + Math.pow(source.combatDetails.smashEvasionRating, 1.4));
 
@@ -251,18 +251,18 @@ class CombatUtilities {
                     sourceDamageTakenRatio = (100.0 - sourceEffectiveArmor) / 100.0;
                 }
 
-                let targetTaskDamageMultiplier = 1.0 + target.combatDetails.combatStats.taskDamage;
-                let sourceDamageTakenMultiplier = 1.0 + source.combatDetails.combatStats.damageTaken;
-                let retaliationDamageMultiplier = targetTaskDamageMultiplier * sourceDamageTakenMultiplier;
+                const targetTaskDamageMultiplier = 1.0 + target.combatDetails.combatStats.taskDamage;
+                const sourceDamageTakenMultiplier = 1.0 + source.combatDetails.combatStats.damageTaken;
+                const retaliationDamageMultiplier = targetTaskDamageMultiplier * sourceDamageTakenMultiplier;
 
                 let premitigatedDamage = damageRoll;
                 premitigatedDamage = Math.min(premitigatedDamage, target.combatDetails.defensiveMaxDamage * 5);
 
-                let retaliationMinDamage = retaliationDamageMultiplier * target.combatDetails.combatStats.retaliation * premitigatedDamage;
-                let retaliationMaxDamage = retaliationDamageMultiplier * target.combatDetails.combatStats.retaliation * (target.combatDetails.defensiveMaxDamage + premitigatedDamage);
+                const retaliationMinDamage = retaliationDamageMultiplier * target.combatDetails.combatStats.retaliation * premitigatedDamage;
+                const retaliationMaxDamage = retaliationDamageMultiplier * target.combatDetails.combatStats.retaliation * (target.combatDetails.defensiveMaxDamage + premitigatedDamage);
 
-                let retaliationDamageRoll = CombatUtilities.randomInt(retaliationMinDamage, retaliationMaxDamage);
-                let mitigatedRetaliationDamage = Math.ceil(sourceDamageTakenRatio * retaliationDamageRoll);
+                const retaliationDamageRoll = CombatUtilities.randomInt(retaliationMinDamage, retaliationMaxDamage);
+                const mitigatedRetaliationDamage = Math.ceil(sourceDamageTakenRatio * retaliationDamageRoll);
                 retaliationDamageDone = Math.min(mitigatedRetaliationDamage, source.combatDetails.currentHitpoints);
                 source.combatDetails.currentHitpoints -= retaliationDamageDone;
             }
@@ -275,7 +275,7 @@ class CombatUtilities {
 
         let hpDrain = 0;
         if (abilityEffect && didHit && abilityEffect.hpDrainRatio > 0) {
-            let healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
+            const healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
             hpDrain = source.addHitpoints(Math.floor(abilityEffect.hpDrainRatio * damageDone * healingAmplify));
         }
 
@@ -292,17 +292,17 @@ class CombatUtilities {
             throw new Error("Heal ability effect not supported for combat style: " + abilityEffect.combatStyleHrid);
         }
 
-        let healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
-        let magicMaxDamage = source.combatDetails.magicMaxDamage;
+        const healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
+        const magicMaxDamage = source.combatDetails.magicMaxDamage;
 
-        let baseHealFlat = abilityEffect.damageFlat;
-        let baseHealRatio = abilityEffect.damageRatio;
+        const baseHealFlat = abilityEffect.damageFlat;
+        const baseHealRatio = abilityEffect.damageRatio;
 
-        let minHeal = healingAmplify * (1 + baseHealFlat);
-        let maxHeal = healingAmplify * (baseHealRatio * magicMaxDamage + baseHealFlat);
+        const minHeal = healingAmplify * (1 + baseHealFlat);
+        const maxHeal = healingAmplify * (baseHealRatio * magicMaxDamage + baseHealFlat);
 
-        let heal = this.randomInt(minHeal, maxHeal);
-        let amountHealed = target.addHitpoints(heal);
+        const heal = this.randomInt(minHeal, maxHeal);
+        const amountHealed = target.addHitpoints(heal);
 
         return amountHealed;
     }
@@ -312,17 +312,17 @@ class CombatUtilities {
             throw new Error("Heal ability effect not supported for combat style: " + abilityEffect.combatStyleHrid);
         }
 
-        let healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
-        let magicMaxDamage = source.combatDetails.magicMaxDamage;
+        const healingAmplify = 1 + source.combatDetails.combatStats.healingAmplify;
+        const magicMaxDamage = source.combatDetails.magicMaxDamage;
 
-        let baseHealFlat = abilityEffect.damageFlat;
-        let baseHealRatio = abilityEffect.damageRatio;
+        const baseHealFlat = abilityEffect.damageFlat;
+        const baseHealRatio = abilityEffect.damageRatio;
 
-        let minHeal = healingAmplify * (1 + baseHealFlat);
-        let maxHeal = healingAmplify * (baseHealRatio * magicMaxDamage + baseHealFlat);
+        const minHeal = healingAmplify * (1 + baseHealFlat);
+        const maxHeal = healingAmplify * (baseHealRatio * magicMaxDamage + baseHealFlat);
 
-        let heal = this.randomInt(minHeal, maxHeal);
-        let amountHealed = target.addHitpoints(heal);
+        const heal = this.randomInt(minHeal, maxHeal);
+        const amountHealed = target.addHitpoints(heal);
         target.combatDetails.currentManapoints = target.combatDetails.maxManapoints;
         target.clearCCs();
 
@@ -332,10 +332,10 @@ class CombatUtilities {
     }
 
     static processSpendHp(source, abilityEffect) {
-        let currentHp = source.combatDetails.currentHitpoints;
-        let spendHpRatio = abilityEffect.spendHpRatio;
+        const currentHp = source.combatDetails.currentHitpoints;
+        const spendHpRatio = abilityEffect.spendHpRatio;
 
-        let spentHp = Math.floor(currentHp * spendHpRatio);
+        const spentHp = Math.floor(currentHp * spendHpRatio);
 
         source.combatDetails.currentHitpoints -= spentHp;
 
@@ -343,8 +343,8 @@ class CombatUtilities {
     }
 
     static calculateTickValue(totalValue, totalTicks, currentTick) {
-        let currentSum = Math.floor((currentTick * totalValue) / totalTicks);
-        let previousSum = Math.floor(((currentTick - 1) * totalValue) / totalTicks);
+        const currentSum = Math.floor((currentTick * totalValue) / totalTicks);
+        const previousSum = Math.floor(((currentTick - 1) * totalValue) / totalTicks);
 
         return currentSum - previousSum;
     }

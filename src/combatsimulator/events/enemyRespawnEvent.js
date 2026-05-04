@@ -1,4 +1,4 @@
-import CombatEvent from "./combatEvent";
+import CombatEvent from "./combatEvent.js";
 
 class EnemyRespawnEvent extends CombatEvent {
     static type = "enemyRespawn";

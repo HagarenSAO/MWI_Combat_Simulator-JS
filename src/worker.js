@@ -1,20 +1,20 @@
 import { setSeed } from "./random.js";
 
-import CombatSimulator from "./combatsimulator/combatSimulator";
-import Player from "./combatsimulator/player";
-import Zone from "./combatsimulator/zone";
-import Labyrinth from "./combatsimulator/labyrinth";
+import CombatSimulator from "./combatsimulator/combatSimulator.js";
+import Player from "./combatsimulator/player.js";
+import Zone from "./combatsimulator/zone.js";
+import Labyrinth from "./combatsimulator/labyrinth.js";
 
 onmessage = async function (event) {
     switch (event.data.type) {
-        case "start_simulation":
+        case "start_simulation": {
             
             // Set random seed if provided
             if (event.data.seed !== undefined && event.data.seed !== null) {
                 setSeed(event.data.seed);
             }
 
-            let extraBuffs = [];
+            const extraBuffs = [];
             if (event.data.extra.mooPass) {
                 const mooPassBuff = {
                     "uniqueHrid": "/buff_uniques/experience_moo_pass_buff",
@@ -127,15 +127,15 @@ onmessage = async function (event) {
                         "duration": 0
                     }
                 };
-                for (let buff of event.data.extra.personalBuffs) {
+                for (const buff of event.data.extra.personalBuffs) {
                     if (personalBuffs[buff]) {
                         extraBuffs.push(personalBuffs[buff]);
                     }
                 }
             }
 
-            let playersData = event.data.players;
-            let players = [];
+            const playersData = event.data.players;
+            const players = [];
             let zone = null;
             if (event.data.zone) {
                 zone = new Zone(event.data.zone.zoneHrid, event.data.zone.difficultyTier);
@@ -145,14 +145,14 @@ onmessage = async function (event) {
                 labyrinth = new Labyrinth(event.data.labyrinth.labyrinthHrid, event.data.labyrinth.roomLevel, event.data.labyrinth.crates);
             }
             for (let i = 0; i < playersData.length; i++) {
-                let currentPlayer = Player.createFromDTO(structuredClone(playersData[i]));
+                const currentPlayer = Player.createFromDTO(structuredClone(playersData[i]));
                 currentPlayer.zoneBuffs = zone?.buffs || labyrinth?.buffs || [];
                 currentPlayer.extraBuffs = extraBuffs;
                 players.push(currentPlayer);
             }
-            let simulationTimeLimit = event.data.simulationTimeLimit;
-            let enableHpMpVisualization = event.data.extra.enableHpMpVisualization || false;
-            let combatSimulator = new CombatSimulator(players, zone, labyrinth, { enableHpMpVisualization });
+            const simulationTimeLimit = event.data.simulationTimeLimit;
+            const enableHpMpVisualization = event.data.extra.enableHpMpVisualization || false;
+            const combatSimulator = new CombatSimulator(players, zone, labyrinth, { enableHpMpVisualization });
             combatSimulator.addEventListener("progress", (event) => {
                 this.postMessage({ 
                     type: "simulation_progress", 
@@ -166,12 +166,13 @@ onmessage = async function (event) {
             });
 
             try {
-                let simResult = await combatSimulator.simulate(simulationTimeLimit);
+                const simResult = await combatSimulator.simulate(simulationTimeLimit);
                 this.postMessage({ type: "simulation_result", simResult: simResult });
             } catch (e) {
                 console.log(e);
                 this.postMessage({ type: "simulation_error", error: e });
             }
             break;
+        }
     }
 };

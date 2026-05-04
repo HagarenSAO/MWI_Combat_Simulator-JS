@@ -1,5 +1,5 @@
-import Monster from "./monster";
-import labyrinthCrateDetailMap from "./data/labyrinthCrateDetailMap.json"
+import Monster from "./monster.js";
+import labyrinthCrateDetailMap from "./data/labyrinthCrateDetailMap.json" with { type: "json" };
 
 class Labyrinth{
     constructor(monsterHrid, roomLevel, crates=[]) {
@@ -8,7 +8,7 @@ class Labyrinth{
 
         this.buffs = [];
         if (crates) {
-            for (let crate of crates) {
+            for (const crate of crates) {
                 this.buffs = this.buffs.concat(labyrinthCrateDetailMap[crate]);
             }
         }

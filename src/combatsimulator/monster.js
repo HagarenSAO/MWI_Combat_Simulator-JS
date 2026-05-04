@@ -1,7 +1,7 @@
-import Ability from "./ability";
-import CombatUnit from "./combatUnit";
-import combatMonsterDetailMap from "./data/combatMonsterDetailMap.json";
-import Drops from "./drops";
+import Ability from "./ability.js";
+import CombatUnit from "./combatUnit.js";
+import combatMonsterDetailMap from "./data/combatMonsterDetailMap.json" with { type: "json" };
+import Drops from "./drops.js";
 
 class Monster extends CombatUnit {
 
@@ -21,14 +21,14 @@ class Monster extends CombatUnit {
             this.roomLevel = this.LabyrinthMonsterBaseRoomLevel;
         }
 
-        let gameMonster = combatMonsterDetailMap[this.hrid];
+        const gameMonster = combatMonsterDetailMap[this.hrid];
         if (!gameMonster) {
             throw new Error("No monster found for hrid: " + this.hrid);
         }
 
         this.enrageTime = gameMonster.enrageTime;
 
-        let labyrinthScaleFactor = this.roomLevel / this.LabyrinthMonsterBaseRoomLevel;
+        const labyrinthScaleFactor = this.roomLevel / this.LabyrinthMonsterBaseRoomLevel;
         for (let i = 0; i < gameMonster.abilities.length; i++) {
             if (gameMonster.abilities[i].minDifficultyTier > this.difficultyTier) {
                 continue;
@@ -40,21 +40,21 @@ class Monster extends CombatUnit {
             this.dropTable[i] = new Drops(gameMonster.dropTable[i].itemHrid, gameMonster.dropTable[i].dropRate, gameMonster.dropTable[i].minCount, gameMonster.dropTable[i].maxCount, gameMonster.dropTable[i].difficultyTier);
         }
         for (let i = 0; i < gameMonster.rareDropTable.length; i++) {
-            let dropTableItem = (gameMonster.dropTable && i < gameMonster.dropTable.length) ? gameMonster.dropTable[i] : null;
-            let difficultyTier = dropTableItem?.difficultyTier ?? gameMonster.rareDropTable[i].minDifficultyTier;
+            const dropTableItem = (gameMonster.dropTable && i < gameMonster.dropTable.length) ? gameMonster.dropTable[i] : null;
+            const difficultyTier = dropTableItem?.difficultyTier ?? gameMonster.rareDropTable[i].minDifficultyTier;
 
             this.rareDropTable[i] = new Drops(gameMonster.rareDropTable[i].itemHrid, gameMonster.rareDropTable[i].dropRate, gameMonster.rareDropTable[i].minCount, difficultyTier);
         }
     }
 
     updateCombatDetails() {
-        let gameMonster = combatMonsterDetailMap[this.hrid];
+        const gameMonster = combatMonsterDetailMap[this.hrid];
 
-        let levelMultiplier = 1.0 + 0.25 * this.difficultyTier;
-        let defLevelMultiplier = 1.0 + 0.15 * this.difficultyTier;
-        let levelBonus = 20.0 * this.difficultyTier;
+        const levelMultiplier = 1.0 + 0.25 * this.difficultyTier;
+        const defLevelMultiplier = 1.0 + 0.15 * this.difficultyTier;
+        const levelBonus = 20.0 * this.difficultyTier;
 
-        let labyrinthScaleFactor = this.roomLevel / this.LabyrinthMonsterBaseRoomLevel;
+        const labyrinthScaleFactor = this.roomLevel / this.LabyrinthMonsterBaseRoomLevel;
 
         this.staminaLevel = levelMultiplier * (gameMonster.combatDetails.staminaLevel + levelBonus) * labyrinthScaleFactor;
         this.intelligenceLevel = levelMultiplier * (gameMonster.combatDetails.intelligenceLevel + levelBonus) * labyrinthScaleFactor;
@@ -64,8 +64,8 @@ class Monster extends CombatUnit {
         this.rangedLevel = levelMultiplier * (gameMonster.combatDetails.rangedLevel + levelBonus) * labyrinthScaleFactor;
         this.magicLevel = levelMultiplier * (gameMonster.combatDetails.magicLevel + levelBonus) * labyrinthScaleFactor;
         
-        let expMultiplier = 1.0 + 0.5 * this.difficultyTier;
-        let expBonus = 5.0 * this.difficultyTier;
+        const expMultiplier = 1.0 + 0.5 * this.difficultyTier;
+        const expBonus = 5.0 * this.difficultyTier;
 
         this.experience = expMultiplier * (gameMonster.experience + expBonus);
 
