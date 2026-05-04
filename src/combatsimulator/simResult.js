@@ -241,7 +241,7 @@ class SimResult {
 
     setManaUsed(unit) {
         this.manaUsed[unit.hrid] = {};
-        for ([key, value] of unit.abilityManaCosts.entries()) {
+        for (const [key, value] of unit.abilityManaCosts.entries()) {
             this.manaUsed[unit.hrid][key] = value;
         }
     }

@@ -1886,7 +1886,7 @@ function calcDropMaps(simResult, playerToDisplay) {
                     }
                 }
             }
-            for ([name, dropObject] of dropMap.entries()) {
+            for (const [name, dropObject] of dropMap.entries()) {
                 if (totalDropMap.has(name)) {
                     totalDropMap.set(name, totalDropMap.get(name) + dropObject.number);
                 } else {
@@ -1898,7 +1898,7 @@ function calcDropMaps(simResult, playerToDisplay) {
                     noRngTotalDropMap.set(name, dropObject.noRngDropAmount);
                 }
             }
-            for ([name, dropObject] of rareDropMap.entries()) {
+            for (const [name, dropObject] of rareDropMap.entries()) {
                 if (totalDropMap.has(name)) {
                     totalDropMap.set(name, totalDropMap.get(name) + dropObject.number);
                 } else {
@@ -1920,7 +1920,7 @@ function getDropProfit(simResult, playerToDisplay) {
     const { _totalDropMap, noRngTotalDropMap } = calcDropMaps(simResult, playerToDisplay);
 
     let noRngTotal = 0;
-    for ([name, dropAmount] of noRngTotalDropMap.entries()) {
+    for (const [name, dropAmount] of noRngTotalDropMap.entries()) {
         let price = -1;
         const revenueSetting = document.getElementById('selectPrices_drops').value;
         if (globalThis.prices) {
@@ -2180,7 +2180,7 @@ function showKills(simResult, playerToDisplay) {
 
     const revenueModalTable = document.querySelector("#revenueTable > tbody");
     let total = 0;
-    for ([name, dropAmount] of totalDropMap.entries()) {
+    for (const [name, dropAmount] of totalDropMap.entries()) {
         const dropRow = createRow(
             ["col-md-6", "col-md-6 text-end"],
             [name, dropAmount.toLocaleString()]
@@ -2228,7 +2228,7 @@ function showKills(simResult, playerToDisplay) {
 
     const noRngRevenueModalTable = document.querySelector("#noRngRevenueTable > tbody");
     let noRngTotal = 0;
-    for ([name, dropAmount] of noRngTotalDropMap.entries()) {
+    for (const [name, dropAmount] of noRngTotalDropMap.entries()) {
         const noRngDropRow = createRow(
             ["col-md-6", "col-md-6 text-end"],
             [name, dropAmount.toLocaleString()]
@@ -2427,7 +2427,7 @@ function showManaUsed(simResult, playerToDisplay) {
 
     const playerManaUsed = simResult.manaUsed[playerToDisplay];
 
-    for (ability in playerManaUsed) {
+    for (const ability in playerManaUsed) {
         const manaUsed = playerManaUsed[ability];
         const manaPerHour = (manaUsed / hoursSimulated).toFixed(0);
         let castsPerHour = (manaPerHour / abilityDetailMap[ability].manaCost).toFixed(2);
@@ -2979,7 +2979,7 @@ function initSimulationControls() {
         }
         multiWorker = new Worker(new URL("multiWorker.js", import.meta.url));
 
-        for (worker of workerPool) {
+        for (const worker of workerPool) {
             worker.worker.terminate();
         }
 
@@ -3035,12 +3035,12 @@ function startSimulation(selectedPlayers) {
     updateUI();
 
     let maxPlayerCombatLevel = 1;
-    for (player of playersToSim) {
+    for (const player of playersToSim) {
         player.combatLevel = calcCombatLevel(player.staminaLevel, player.intelligenceLevel, player.defenseLevel, player.attackLevel, player.meleeLevel, player.rangedLevel, player.magicLevel);
         maxPlayerCombatLevel = Math.max(maxPlayerCombatLevel, player.combatLevel);
     }
 
-    for (player of playersToSim) {
+    for (const player of playersToSim) {
         if ((maxPlayerCombatLevel / player.combatLevel) > 1.2) {
             const maxDebuffOnLevelGap = 0.9;
             const levelPercent = (maxPlayerCombatLevel / player.combatLevel) - 1.2;
@@ -3068,7 +3068,7 @@ function startSimulation(selectedPlayers) {
     extra.personalBuffs = [];
     if (document.getElementById("personalBuffsToggle").checked) {
         const personalBuffs = document.getElementById("personalBuffsBox").querySelectorAll("input");
-        for (buff of personalBuffs) {
+        for (const buff of personalBuffs) {
             if (buff.checked) {
                 extra.personalBuffs.push(buff.value);
             }
@@ -3300,12 +3300,12 @@ document.getElementById("buttonUploadJSONSimulate").addEventListener("click", (_
                 );
 
                 let maxPlayerCombatLevel = 1.0;
-                for (player of playersToSim) {
+                for (const player of playersToSim) {
                     player.combatLevel = calcCombatLevel(player.staminaLevel, player.intelligenceLevel, player.defenseLevel, player.attackLevel, player.meleeLevel, player.rangedLevel, player.magicLevel);
                     maxPlayerCombatLevel = Math.max(maxPlayerCombatLevel, player.combatLevel);
                 }
 
-                for (player of playersToSim) {
+                for (const player of playersToSim) {
                     if ((maxPlayerCombatLevel / player.combatLevel) > 1.2) {
                         const maxDebuffOnLevelGap = 0.9;
                         const levelPercent = Math.floor(((maxPlayerCombatLevel / player.combatLevel) - 1.2) * 100) / 100;
@@ -4081,7 +4081,7 @@ function doGroupImport() {
     let needUpdateCurrentTab = false;
     const value = document.getElementById("inputSetGroupCombatAll")?.value || "";
     if (!value.trim()) {
-        for (i of ['1', '2', '3', '4', '5']) {
+        for (const i of ['1', '2', '3', '4', '5']) {
             if (setPlayerData(i, "inputSetGroupCombatplayer" + i) && currentPlayerTabId == i) {
                 needUpdateCurrentTab = true;
             }
