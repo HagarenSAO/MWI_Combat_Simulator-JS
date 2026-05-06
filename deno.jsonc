@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "deno.window"],
+    "strict": true,                // 開啟所有嚴格檢查，這會最有 Rust 的感覺
+    "noUnusedLocals": true,        // 宣告了卻沒用的變數會報錯（像 Rust 的 unused warning）
+    "noUnusedParameters": true,    // 沒用到的 function 參數也會報錯
+    "noImplicitAny": false,         // 禁止隱含的 any，強制你思考型別
+    "noImplicitReturns": false      // 確保 function 每個路徑都有 return
+  },
+  "lint": {
+    "include": ["src/"],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 120,
+    "indentWidth": 4,
+    "semiColons": true,
+    "singleQuote": false,
+    "proseWrap": "preserve",
+    "include": ["src/"]
+  },
+  "lock": true,
+  "tasks": {
+    "open":"cmd /c start http://localhost:9000 || open http://localhost:9000", //winows用start，mac/linux用open。
+    "dev": "deno task open && deno run --allow-net --allow-read=. --watch jsr:@std/http/file-server --port 9000"
+    //worker.js, multiWorker.js要分開打包
+    //"build_main": "deno bundle --external=heap-js --external=i18next --external=i18nLanguageDetector --external=i18nHttpBackend --external=bootstrap --external=chart.js --outdir dist index.html --platform=browser --sourcemap=external"
+    //"build_worker": ......
+    //"build_multiWorker": ......
+    //"build": "deno task build_main && deno task build_worker && deno task build_multiWorker"
+  },
+  "imports": {
+    "heap-js": "npm:heap-js@^2.2.0",
+    "i18next": "npm:i18next@^21.6.10",
+    "i18nLanguageDetector": "npm:i18next-browser-languagedetector@^6.1.3",
+    "i18nHttpBackend": "npm:i18next-http-backend@^1.3.2",
+    "bootstrap": "npm:bootstrap@^5.2.0",
+    "chart.js": "npm:chart.js@^4.5.0"
+  },
+  "exclude": [
+    "dist/"
+  ]
+}
+

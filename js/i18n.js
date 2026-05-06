@@ -1,4 +1,8 @@
-    const Wa = {
+import i18next from "i18next";
+import i18nextBrowserLanguageDetector from "i18nLanguageDetector";
+import i18nextHttpBackend from "i18nHttpBackend";
+
+const Wa = {
         en: {
             translation: {
                 ...{

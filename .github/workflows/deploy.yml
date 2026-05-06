@@ -15,28 +15,34 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  check-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "[Build] Checkout repo"
+      - name: "[Pre-Deploy] Checkout repo"
         uses: actions/checkout@v5
 
-      - name: "[Build] Setup Deno"
+      - name: "[Check] Setup Deno"
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x 
 
-      - name: "[Build] Install dependencies"
-        run: deno install
+      - name: "[Check] Deno Check"
+        run: deno check
 
-      - name: "[Build] Build"
-        run: deno task build
+      - name: "[Pre-Deploy] Remove unnecessary files"
+        run: |
+          # 刪除不想要在 GitHub Pages 看到的文件
+          rm -rf .github
+          rm -f .gitignore
+          rm -f README.md
+          rm -f deno.jsonc
+          rm -f deno.lock
 
       - name: "[Deploy] Push to gh-pages"
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist
+          folder: .
           target-folder: ${{ github.ref_name }} 
           clean: false 
