@@ -1,3 +1,7 @@
+import i18next from "i18next";
+import { Modal } from "bootstrap";
+import { Chart } from "chart.js";
+
 import { random, reset } from "./random.js";
 
 import Equipment from "./combatsimulator/equipment.js";
@@ -30,8 +34,8 @@ const buttonStopSimulation = document.getElementById("buttonStopSimulation");
 const progressbar = document.getElementById("simulationProgressBar");
 let simStartTime = 0;
 
-let worker = new Worker(new URL("worker.js", import.meta.url));
-let multiWorker = new Worker(new URL("multiWorker.js", import.meta.url));
+let worker = new Worker(new URL("worker.js", import.meta.url), { type: "module" });
+let multiWorker = new Worker(new URL("multiWorker.js", import.meta.url), { type: "module" });
 const workerPool = [];
 
 
@@ -2972,12 +2976,12 @@ function initSimulationControls() {
         if (worker) {
             worker.terminate();
         }
-        worker = new Worker(new URL("worker.js", import.meta.url));
+        worker = new Worker(new URL("worker.js", import.meta.url), { type: "module" });
 
         if (multiWorker) {
             multiWorker.terminate();
         }
-        multiWorker = new Worker(new URL("multiWorker.js", import.meta.url));
+        multiWorker = new Worker(new URL("multiWorker.js", import.meta.url), { type: "module" });
 
         for (const worker of workerPool) {
             worker.worker.terminate();
@@ -3123,7 +3127,7 @@ function startSimulation(selectedPlayers) {
         };
         simStartTime = Date.now();
         if (!worker) {
-            worker = new Worker(new URL("multiWorker.js", import.meta.url));
+            worker = new Worker(new URL("multiWorker.js", import.meta.url), { type: "module" });
         }
         worker.onmessage = onWorkerMessage;
         worker.postMessage(workerMessage);
@@ -3154,7 +3158,7 @@ function startSimulation(selectedPlayers) {
         };
         simStartTime = Date.now();
         if (!multiWorker) {
-            multiWorker = new Worker(new URL("multiWorker.js", import.meta.url));
+            multiWorker = new Worker(new URL("multiWorker.js", import.meta.url), { type: "module" });
         }
         multiWorker.onmessage = onMultiWorkerMessage;
         multiWorker.postMessage(workerMessage);
@@ -3205,7 +3209,7 @@ function startSimulation(selectedPlayers) {
         };
         simStartTime = Date.now();
         if (!multiWorker) {
-            multiWorker = new Worker(new URL("multiWorker.js", import.meta.url));
+            multiWorker = new Worker(new URL("multiWorker.js", import.meta.url), { type: "module" });
         }
         multiWorker.onmessage = onMultiWorkerMessage;
         multiWorker.postMessage(workerMessage);
@@ -3354,7 +3358,7 @@ document.getElementById("buttonUploadJSONSimulate").addEventListener("click", (_
                         simulationTimeLimit: simulationTimeLimit,
                         extra : extra
                     };
-                    const worker = new Worker(new URL("worker.js", import.meta.url)); 
+                    const worker = new Worker(new URL("worker.js", import.meta.url), { type: "module" }); 
                     worker.onmessage = mainWorkerOnMessage;
                     worker.postMessage(workerMessage);
                     customAlert("Simulation task Created", "info")
@@ -3374,7 +3378,7 @@ document.getElementById("buttonUploadJSONSimulate").addEventListener("click", (_
                         simulationTimeLimit: simulationTimeLimit,
                         extra : extra
                     };
-                    const worker = new Worker(new URL("worker.js", import.meta.url)); 
+                    const worker = new Worker(new URL("worker.js", import.meta.url), { type: "module" }); 
                     worker.onmessage = mainWorkerOnMessage;
                     worker.postMessage(workerMessage);
                     customAlert("Simulation task Created", "info")
@@ -4455,7 +4459,8 @@ function showErrorModal(error) {
     const errorInput = document.getElementById("inputError");
     errorInput.value = JSON.stringify(state);
 
-    const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+    //bootstrap.Modal
+    const errorModal = new Modal(document.getElementById("errorModal")); 
     errorModal.show();
 }
 

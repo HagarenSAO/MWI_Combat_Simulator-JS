@@ -1,4 +1,4 @@
-import Heap from "heap-js";
+import Heap from "https://esm.sh/heap-js@2.2.0";
 
 class EventQueue {
     constructor() {
@@ -14,13 +14,13 @@ class EventQueue {
     }
 
     containsEventOfType(type) {
-        let heapEvents = this.minHeap.toArray();
+        const heapEvents = this.minHeap.toArray();
 
         return heapEvents.some((event) => event.type == type);
     }
 
     containsEventOfTypeAndHrid(type, hrid) {
-        let heapEvents = this.minHeap.toArray();
+        const heapEvents = this.minHeap.toArray();
         return heapEvents.some((event) => event.type == type && event.hrid == hrid);
     }
 
@@ -38,7 +38,7 @@ class EventQueue {
 
     clearMatching(fn) {
         let cleared = false;
-        let heapEvents = this.minHeap.toArray();
+        const heapEvents = this.minHeap.toArray();
 
         for (const event of heapEvents) {
             if (fn(event)) {
@@ -50,7 +50,7 @@ class EventQueue {
     }
 
     getMatching(fn) {
-        let heapEvents = this.minHeap.toArray(); 
+        const heapEvents = this.minHeap.toArray(); 
     
         for (const event of heapEvents) {
             if (fn(event)) {
